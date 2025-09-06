@@ -1,7 +1,7 @@
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const pool = require("../config/db"); // ✅ DB connection
-
+const CONFIG = require("../config/config");  
 // ✅ Login Controller
 exports.login = async (req, res) => {
   try {
@@ -43,10 +43,10 @@ exports.login = async (req, res) => {
       });
     }
 
-    // 🔹 Generate JWT
+    // 🔹 Generate JWT (use CONFIG instead of process.env)
     const token = jwt.sign(
       { id: user.id, role: user.role },
-      process.env.JWT_SECRET,
+      CONFIG.JWT_SECRET,
       { expiresIn: "1d" }
     );
 

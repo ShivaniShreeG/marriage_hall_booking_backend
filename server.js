@@ -1,20 +1,19 @@
 const express = require("express");
-const dotenv = require("dotenv");
 const cors = require("cors");
 const authRoutes = require("./routes/authRoutes");
-const bookingRoutes = require("./routes/bookingRoutes"); // ✅ add this
+const bookingRoutes = require("./routes/bookingRoutes");
+const CONFIG = require("./config/config"); // ✅ Import the config file
 
-dotenv.config();
 const app = express();
 
-// ✅ Enable CORS for all origins
+// ✅ Enable CORS
 app.use(cors({
-  origin: "*", // Allow all origins
+  origin: "*",
   methods: "GET,POST,PUT,DELETE,OPTIONS",
   allowedHeaders: "Content-Type,Authorization",
 }));
 
-// ✅ Middleware to parse JSON
+// ✅ Middleware
 app.use(express.json());
 
 // ✅ Test API
@@ -24,10 +23,9 @@ app.get("/", (req, res) => {
 
 // ✅ Routes
 app.use("/api/auth", authRoutes);
-app.use("/api/bookings", bookingRoutes); // ✅ add booking routes
+app.use("/api/bookings", bookingRoutes);
 
-// ✅ Start Server on all network interfaces
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, "0.0.0.0", () => {
-  console.log(`🚀 Server running on http://0.0.0.0:${PORT}`);
+// ✅ Start Server
+app.listen(CONFIG.PORT, "0.0.0.0", () => {
+  console.log(`🚀 Server running on http://0.0.0.0:${CONFIG.PORT}`);
 });

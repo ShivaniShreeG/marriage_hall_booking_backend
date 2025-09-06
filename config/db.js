@@ -1,21 +1,19 @@
 const mysql = require("mysql2/promise");
-require("dotenv").config();
+const CONFIG = require("./config"); // ✅ use config.js, not server.js
 
-const host = process.env.DB_HOST.includes(":")
-  ? `[${process.env.DB_HOST}]`
-  : process.env.DB_HOST;
+const host = CONFIG.DB_HOST.includes(":") ? `[${CONFIG.DB_HOST}]` : CONFIG.DB_HOST;
 
 const pool = mysql.createPool({
   host: host,
-  user: process.env.DB_USER,
-  password: process.env.DB_PASSWORD,
-  database: process.env.DB_NAME,
-  port: process.env.DB_PORT || 3306,
+  user: CONFIG.DB_USER,
+  password: CONFIG.DB_PASSWORD,
+  database: CONFIG.DB_NAME,
+  port: CONFIG.DB_PORT,
   waitForConnections: true,
   connectionLimit: 10,
   queueLimit: 0,
   ssl: {
-    rejectUnauthorized: false, // 👈 allow self-signed certs
+    rejectUnauthorized: false,
   },
 });
 
